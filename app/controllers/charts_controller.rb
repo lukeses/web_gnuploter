@@ -25,10 +25,19 @@ class ChartsController < ApplicationController
   # POST /charts.json
   def create
     @chart = Chart.new(chart_params)
-
+    filename  = SecureRandom.urlsafe_base64 + '.png'
+    dir_path  = File.join(Rails.root, "photos_temp")
     gnuploter = Gnuploter::Gnuplot.new
     gnuploter.title = 'New chart'
-    gnuploter.plot_to_png("[-10:10] sin(x)", "file3.png", File.join(Rails.root, "photos_temp"))
+    gnuploter.plot_to_png("[-10:10] sin(x)", filename, dir_path)
+
+# TO DO change sleep
+sleep 3
+
+    file = File.open(File.join(dir_path, filename))
+    @chart.photo = file
+    file.close
+
 
     respond_to do |format|
       if @chart.save
