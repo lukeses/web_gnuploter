@@ -26,6 +26,10 @@ class ChartsController < ApplicationController
   def create
     @chart = Chart.new(chart_params)
 
+    gnuploter = Gnuploter::Gnuplot.new
+    gnuploter.title = 'New chart'
+    gnuploter.plot_to_png("[-10:10] sin(x)", "file3.png", File.join(Rails.root, "photos_temp"))
+
     respond_to do |format|
       if @chart.save
         format.html { redirect_to @chart, notice: 'Chart was successfully created.' }
