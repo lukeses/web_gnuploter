@@ -10,5 +10,9 @@
   <%= @chart.description %>
 </p>
 
+
+<%= image_tag @chart.photo.url %>
+
+
 <%= link_to 'Edit', edit_chart_path(@chart) %> |
 <%= link_to 'Back', charts_path %>
